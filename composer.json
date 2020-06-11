@@ -1,0 +1,20 @@
+{
+    "name": "tamreno/generate",
+    "type": "library",
+    "description": "A library of tools to generate tables, forms and files to output to the browser or save to a folder location.",
+    "keywords": ["form","table","file","generator"],
+    "homepage": "https://warrior-poet.org/generate",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Tam Bieszczad"
+        }
+    ],
+    "require": {
+        "php": "^7.0.1",
+        "setasign/fpdi-fpdf": "^1.0"
+    },
+    "autoload": {
+        "files": ["src/GenerateAutoload.php"]
+    }
+}
