@@ -10,6 +10,7 @@
             "name": "Tam Bieszczad"
         }
     ],
+    "prefer-stable": true,
     "require": {
         "php": "^7.0.1",
         "setasign/fpdi-fpdf": "^1.0"
