@@ -17,6 +17,6 @@
         "setasign/fpdi": "^2.0"
     },
     "autoload": {
-        "files": ["src/GenerateAutoload.php"]
+        "classmap": ["Generate/"]
     }
 }
