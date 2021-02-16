@@ -1,1 +1,1 @@
-# generate-my
+# generate
