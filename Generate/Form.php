@@ -59,28 +59,53 @@ class Generate_Form
      * 
      * @return self
      */
-    public function __construct($params = null)
-    {
+    public function __construct(array $params = null){
         if(!empty($params)){
             extract($params);
         }
-        $this->_formName = $formName ?? null;
-        $this->_formID = $formID ?? ($formName ?? null);
-        $this->_action = $action ?? null;
-        $this->_method = $method ?? $this->_method;
-        $this->_enctype = $enctype ?? null;
-        if(isset($class))
-        {
+        
+        if(isset($formName)){
+        	$this->setFormName($formName);
+        }
+        
+        if(isset($formID)){
+        	$this->setFormId($formID);
+        }
+        
+        if(isset($action)){
+        	$this->setAction($action);
+        }
+        
+        if(isset($method)){
+        	$this->setMethod($method);
+        }
+        
+        if(isset($enctype)){
+        	$this->setEnctype($enctype);
+        }
+        
+        if(isset($class)){
             call_user_func_array(array($this, 'setFormClass'), (array)$class);
         }
         
-        if(isset($style))
-        {
+        if(isset($style)){
             call_user_func_array(array($this, 'setFormStyle'), (array)$style);
         }
         
         $this->newFieldset($legend ?? null);
         return $this; // for chaining
+    }
+    
+    public function setFormName(string $formName){
+    	$this->_formName = $formName;
+    }
+
+    public function setFormId(string $formID){
+    	$this->_formID = $formName;
+    }
+
+    public function setEnctype(string $enctype){
+    	$this->_enctype = $formName;
     }
 
     /**
