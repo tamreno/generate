@@ -1550,12 +1550,12 @@ class Field
     /**
      * Set an attribute for the input field, label or wrapper.
      * 
-     * @param array $attribute The attribute of the field, label or wrapper.
+     * @param string $attribute The attribute of the field, label or wrapper.
      * @param mixed $val The value of the attribute.
      * 
      * @return void
      */
-    public function setAttribute(array $attribute, $val)
+    public function setAttribute(string $attribute, $val)
     {
         switch(strtolower($attribute))
         {
