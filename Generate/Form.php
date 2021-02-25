@@ -373,7 +373,7 @@ class Generate_Form
         //If this field has a name associated, add it to the _fieldlist array.
         if(!empty($fieldInfo['name'])){
             $this->_fieldlist[$fieldInfo['name']] = array('fieldset' => $_fs,
-                                                             'field' => $_fieldNum);
+                                                             'field' => ++$_fieldNum);
         }
         //If field type is 'file', change the _enctype to 'multipart/form-data'
         if($fieldInfo['type'] == 'file'){
@@ -389,8 +389,8 @@ class Generate_Form
         }
         
         if(!empty($fieldInfo['limitChars'])){
-            if(empty($fieldInfo['maxLength'])){
-                $fieldInfo['maxLength'] = is_int($fieldInfo['limitChars']) ? $fieldInfo['limitChars'] : 100;
+            if(empty($fieldInfo['maxlength'])){
+                $fieldInfo['maxlength'] = is_int($fieldInfo['limitChars']) ? $fieldInfo['limitChars'] : 100;
             }
             $this->_buildLimitCharactersScript($fieldInfo);
         }
@@ -1218,7 +1218,7 @@ class Generate_Form
      * @param string $selected
      * @return string
      */
-    private function _buildOptions($options, $selected = null)
+    private function _buildOptions(array $options, $selected = null)
     {
         $_optionList = '';
         foreach($options as $option)
