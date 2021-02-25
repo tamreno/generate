@@ -248,10 +248,7 @@ class Generate_Form
             $_params['name'] = $name;
             $_params['id'] = $name;
         }
-        $this->Submit = new Field(array(
-                                        'name' => $name,
-                                          'id' => $name,
-                                       ));
+        $this->Submit = new Field($_params);
         return $this;
     }
     
