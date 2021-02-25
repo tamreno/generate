@@ -369,6 +369,12 @@ class Generate_Form
         if(empty($fieldInfo['name'])){
             $fieldInfo['name'] = $fieldInfo['id'] ?? 'field-' . $_fs . '-' . ++$_fieldNum;
         }
+        if(!empty($fieldInfo['limitChars'])){
+            if(empty($fieldInfo['maxlength'])){
+                $fieldInfo['maxlength'] = is_int($fieldInfo['limitChars']) ? $fieldInfo['limitChars'] : 100;
+            }
+        }
+        $this->fieldset[$_fs]->addField($fieldInfo);
 
         //If this field has a name associated, add it to the _fieldlist array.
         if(!empty($fieldInfo['name'])){
@@ -389,13 +395,9 @@ class Generate_Form
         }
         
         if(!empty($fieldInfo['limitChars'])){
-            if(empty($fieldInfo['maxlength'])){
-                $fieldInfo['maxlength'] = is_int($fieldInfo['limitChars']) ? $fieldInfo['limitChars'] : 100;
-            }
             $this->_buildLimitCharactersScript($fieldInfo);
         }
         
-        $this->fieldset[$_fs]->addField($fieldInfo);
         
         return $this;
     }
