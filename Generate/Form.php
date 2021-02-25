@@ -243,10 +243,15 @@ class Generate_Form
      */
     public function setSubmit(string $value, string $name = null)
     {
-        $this->Submit = new Field(array('type' => 'submit',
+        $_params = array('type' => 'submit','value' => $value);
+        if(!empty($name)){
+            $_params['name'] = $name;
+            $_params['id'] = $name;
+        }
+        $this->Submit = new Field(array(
                                         'name' => $name,
                                           'id' => $name,
-                                       'value' => $value));
+                                       ));
         return $this;
     }
     
@@ -360,7 +365,7 @@ class Generate_Form
     public function addField(array $fieldInfo){
         $_fs = $fieldInfo['fieldset'] ?? count($this->fieldset);
         $_fieldset = $this->fieldset[$_fs];
-        $_fieldNum = !empty($_fieldset->field) && is_array($_fieldset->field) ? count($_fieldset->field) : 0;
+        $_fieldNum = is_array($_fieldset->field) ? count($_fieldset->field) : 0;
         $fieldInfo['id'] = !empty($fieldInfo['id']) ? $fieldInfo['id'] : 'field-' . $_fs . '-' . ++$_fieldNum;
         $this->fieldset[$_fs]->addField($fieldInfo);
         //If this field has a name associated, add it to the _fieldlist array.
