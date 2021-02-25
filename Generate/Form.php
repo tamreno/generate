@@ -373,7 +373,7 @@ class Generate_Form
         //If this field has a name associated, add it to the _fieldlist array.
         if(!empty($fieldInfo['name'])){
             $this->_fieldlist[$fieldInfo['name']] = array('fieldset' => $_fs,
-                                                             'field' => ++$_fieldNum);
+                                                             'field' => count($this->fieldset[$_fs]->field));
         }
         //If field type is 'file', change the _enctype to 'multipart/form-data'
         if($fieldInfo['type'] == 'file'){
