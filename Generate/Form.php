@@ -112,7 +112,7 @@ class Generate_Form
      * @param string $formID
      */
     public function setFormId(string $formID){
-    	$this->_formID = $formName;
+    	$this->_formID = $formID;
     }
 
     /**
@@ -121,7 +121,7 @@ class Generate_Form
      * @param string $enctype
      */
     public function setEnctype(string $enctype){
-    	$this->_enctype = $formName;
+    	$this->_enctype = $enctype;
     }
 
     /**
@@ -359,6 +359,8 @@ class Generate_Form
      */
     public function addField(array $fieldInfo){
         $_fs = $fieldInfo['fieldset'] ?? count($this->fieldset);
+        $_fieldset = $this->fieldset;
+        $fieldInfo['id'] = $fieldInfo['id'] ?? 'field-'.$_fs.'-'.(count($_fieldset->field)+1);
         $this->fieldset[$_fs]->addField($fieldInfo);
         //If this field has a name associated, add it to the _fieldlist array.
         if(!empty($fieldInfo['name'])){
@@ -956,7 +958,7 @@ class Generate_Form
      * @return string $_attributes The string of HTML markup defining all of the
      * field's attributes within the element (i.e. input, textarea, select, etc.).
      */
-    private function _buildCommonAttributes($field, $ignore = null)
+    private function _buildCommonAttributes(Field $field, array $ignore = null)
     {
         $_attributes = '';
         foreach($this->_getAttributeList() as $_attr)
@@ -967,7 +969,7 @@ class Generate_Form
     }
     
     /**
-     * Array of input attributes.
+     * Array of valid input attributes.
      * 
      * @return array Array of input attributes.
      */
@@ -988,7 +990,7 @@ class Generate_Form
      * 
      * @return string HTML markup defining the attribute of this field element.
      */
-    private function _buildAttribute($attribute, $field)
+    private function _buildAttribute(string $attribute, Field $field)
     {
         switch($attribute)
         {
@@ -1345,14 +1347,14 @@ class Fieldset
     /**
      * The constructor for the Fieldset object.
      * 
-     * @param type $fieldsetID The id to be attributed to the fieldset.
-     * @param type $legend The text to be assigned to the "legend" element.
+     * @param string $fieldsetID The id to be attributed to the fieldset.
+     * @param string $legend The text to be assigned to the "legend" element.
      * 
      * @return void
      */
-    public function __construct($fieldsetID, $legend = null)
+    public function __construct(string $fieldsetID, string $legend = null)
     {
-        $this->_fieldsetID = $fieldsetID ?? null;
+        $this->_fieldsetID = $fieldsetID;
         $this->_legend = $legend ?? null;
     }
     
@@ -1364,7 +1366,7 @@ class Fieldset
      * 
      * @return void
      */
-    public function setLegend($legend)
+    public function setLegend(string $legend)
     {
         $this->_legend = $legend;
     }
@@ -1452,7 +1454,7 @@ class Fieldset
      * 
      * @return void
      */
-    public function addField($params)
+    public function addField(array $params)
     {
         $_num = !empty($this->field) ? count($this->field) + 1 : 1;
         $this->field[$_num] = new Field($params);
@@ -1466,7 +1468,7 @@ class Fieldset
      * 
      * @return void
      */
-    public function get($value)
+    public function get(string $value)
     {
         if(isset($this->{$value}))
         {
@@ -1520,7 +1522,7 @@ class Field
      * 
      * @return void
      */
-    public function __construct($details)
+    public function __construct(array $details)
     {
         $this->setAttributes($details);
         //If the type is "paragraph" then is doesn't need a name.
@@ -1536,7 +1538,7 @@ class Field
      * 
      * @return void
      */
-    public function setAttributes($attributeList)
+    public function setAttributes(array $attributeList)
     {
         foreach($attributeList as $attribute => $val)
         {
@@ -1552,7 +1554,7 @@ class Field
      * 
      * @return void
      */
-    public function setAttribute($attribute, $val)
+    public function setAttribute(array $attribute, $val)
     {
         switch(strtolower($attribute))
         {
@@ -1606,7 +1608,7 @@ class Field
      * 
      * @return void
      */
-    public function setLabel($label)
+    public function setLabel(string $label)
     {
         $this->_label = $label;
     }
@@ -1658,7 +1660,7 @@ class Field
      * 
      * @return void
      */
-    public function setInputType($type)
+    public function setInputType(string $type)
     {
         $this->_inputType = $type;
     }
@@ -1746,7 +1748,7 @@ class Field
      * 
      * @return void
      */
-    public function floatLabel($float = 'yes')
+    public function floatLabel(bool $float = true)
     {
         $this->_floatLabel = in_array(strtolower($float), array('no','false','none','off')) ? (false) : (true);
     }
@@ -1759,7 +1761,7 @@ class Field
      * 
      * @return void
      */
-    public function get($property)
+    public function get(string $property)
     {
         if(isset($this->{$property}))
         {
@@ -1778,7 +1780,7 @@ class Field
      * 
      * @return void
      */
-    public function setValue($val)
+    public function setValue(string $val)
     {
         $this->_value = $val;
     }
@@ -1790,7 +1792,7 @@ class Field
      * 
      * @return void
      */
-    public function setError($error)
+    public function setError(string $error)
     {
         $this->_error = $error;
     }
@@ -1802,7 +1804,7 @@ class Field
      * 
      * @return void
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->_title = $title;
     }
@@ -1815,7 +1817,7 @@ class Field
      * 
      * @return void
      */
-    public function setWrapType($type)
+    public function setWrapType(string $type)
     {
         $this->_wrapType = $type;
     }
@@ -1883,7 +1885,7 @@ class Field
      * 
      * @return void
      */
-    public function setId($id)
+    public function setId(string $id)
     {
         $this->_fieldID = $id;
     }
@@ -1899,7 +1901,7 @@ class buildJquery
      * 
      * @return string $_script
      */
-    public static function showOnSelect($triggerId)
+    public static function showOnSelect(string $triggerId)
     {
 //var res = str.match(/([\S-]*)(?=Checked)/g);
         $_script = <<<END
@@ -1941,10 +1943,11 @@ END;
      * or checkbox triggers.
      * 
      * @param string $triggerId
+     * @param string $triggerName
      * 
      * @return string $_script
      */
-    public static function showOnRadio($formID, $triggerName)
+    public static function showOnRadio(string $formID, string $triggerName)
     {
         $_script = <<<END
             
@@ -1978,7 +1981,13 @@ END;
         return $_script;
     }
     
-    public static function showOnCheckbox($triggerId)
+    /**
+     * Builds the jQuery script for show on checkbox functionality.
+     * 
+     * @param string $triggerId
+     * @return string
+     */
+    public static function showOnCheckbox(string $triggerId)
     {
         $_script = <<<END
             
@@ -2010,6 +2019,11 @@ END;
         return $_script;
     }
     
+    /**
+     * Supplies the jQuery for limiting characters in a field.
+     * 
+     * @return string 
+     */
     public static function limitCharacters(){
         $_script = <<<END
                 
@@ -2029,7 +2043,13 @@ END;
         return $_script;
     }
 
-    public static function datePicker($fieldInfo){
+    /**
+     * Builds the DatePicker jQuery script.
+     * 
+     * @param array $fieldInfo
+     * @return string
+     */
+    public static function datePicker(array $fieldInfo){
         $parameters = $fieldInfo['datepicker'] ?? array();
         $_script = '
                 
