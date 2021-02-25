@@ -1529,7 +1529,7 @@ class Field
     {
         $this->setAttributes($details);
         //If the type is "paragraph" then is doesn't need a name.
-        $this->_name = strtolower($details['type']) != 'paragraph' ? $details['name'] : null;
+        $this->_name = !in_array(strtolower($details['type']), ['paragraph','submit']) ? $details['name'] : null;
         //If it doesn't have a _fieldID, then give it the same as its _name.
         $this->_fieldID = $this->_fieldID ?? preg_replace('/[\W!-]/', '', $this->_name);
     }
