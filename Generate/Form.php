@@ -32,6 +32,7 @@ class Generate_Form
     
     /**
      * Default is to set a honeypot for robots.
+     * 
      * @access private
      * @var boolean 
      */
@@ -96,14 +97,29 @@ class Generate_Form
         return $this; // for chaining
     }
     
+    /**
+     * Set the name of the form.
+     * 
+     * @param string $formName
+     */
     public function setFormName(string $formName){
     	$this->_formName = $formName;
     }
 
+    /**
+     * Set the id of the form.
+     * 
+     * @param string $formID
+     */
     public function setFormId(string $formID){
     	$this->_formID = $formName;
     }
 
+    /**
+     * Set the enctype of the form.
+     * 
+     * @param string $enctype
+     */
     public function setEnctype(string $enctype){
     	$this->_enctype = $formName;
     }
@@ -197,7 +213,7 @@ class Generate_Form
      * 
      * @return self
      */
-    public function setAction($action)
+    public function setAction(string $action)
     {
         $this->_action = $action;
         return $this;
@@ -210,7 +226,7 @@ class Generate_Form
      * 
      * @return self
      */
-    public function setMethod($method)
+    public function setMethod(string $method)
     {
         $method = strtolower($method);
         $this->_method = $method == 'get' || $method == 'post' ? $method : $this->_method;
@@ -225,7 +241,7 @@ class Generate_Form
      * 
      * @return self
      */
-    public function setSubmit($value, $name = null)
+    public function setSubmit(string $value, string $name = null)
     {
         $this->Submit = new Field(array('type' => 'submit',
                                         'name' => $name,
@@ -255,7 +271,7 @@ class Generate_Form
      * 
      * @return self
      */
-    public function newFieldset($legend = null)
+    public function newFieldset(string $legend = null)
     {
         $_fieldsetNum = !empty($this->fieldset) ? count($this->fieldset) + 1 : 1;
         $this->fieldset[$_fieldsetNum] = new Fieldset($_fieldsetNum, $legend);
@@ -327,7 +343,7 @@ class Generate_Form
      * 
      * @return self
      */
-    public function setLegend($legend)
+    public function setLegend(string $legend)
     {
         $_num = count($this->fieldset);
         $this->fieldset[$_num]->setLegend($legend);
@@ -341,7 +357,7 @@ class Generate_Form
      * 
      * @return self
      */
-    public function addField($fieldInfo){
+    public function addField(array $fieldInfo){
         $_fs = $fieldInfo['fieldset'] ?? count($this->fieldset);
         $this->fieldset[$_fs]->addField($fieldInfo);
         //If this field has a name associated, add it to the _fieldlist array.
@@ -376,7 +392,7 @@ class Generate_Form
      * 
      * @return void
      */
-    private function _buildShowOnScripts($fieldInfo)
+    private function _buildShowOnScripts(array $fieldInfo)
     {
         foreach($fieldInfo['showOn'] as $triggerName => $triggerValue)
         {
@@ -429,12 +445,23 @@ class Generate_Form
         }        
     }
     
-    private function _buildLimitCharactersScript($fieldInfo){
+    /**
+     * Builds the Javascript to use for the character limit functionality of this
+     * form field.
+     * 
+     * @param array $fieldInfo
+     */
+    private function _buildLimitCharactersScript(array $fieldInfo){
         $this->field($fieldInfo['name'],array('addclass' => 'limitChars'));
         $this->_scripts['limitChars'] = buildJquery::limitCharacters();
     }
     
-    private function _buildDatepickerScript($fieldInfo){
+    /**
+     * Builds the Datepicker jQuery script for this date field.
+     * 
+     * @param array $fieldInfo
+     */
+    private function _buildDatepickerScript(array $fieldInfo){
         $this->field($fieldInfo['name'],array('addclass' => 'datepicker'));
         $this->_scripts[$fieldInfo['id'].'-datepicker'] = buildJquery::datePicker($fieldInfo);
     }
@@ -449,7 +476,7 @@ class Generate_Form
      * 
      * @return self|string Returns string only for the 'get' action 
      */
-    public function field($name, $params)
+    public function field(string $name, array $params)
     {
         $_fs = $this->_fieldlist[$name]['fieldset'];
         $_field = $this->_fieldlist[$name]['field'];
@@ -527,7 +554,7 @@ class Generate_Form
      * 
      * @return void
      */
-    private function _autoPopulate($data)
+    private function _autoPopulate(array $data)
     {
         foreach($data as $fieldname => $value)
         {
@@ -546,7 +573,7 @@ class Generate_Form
      * 
      * @return void
      */
-    public function validationErrors($errors)
+    public function validationErrors(array $errors)
     {
         foreach($errors as $fieldname => $error)
         {
@@ -566,7 +593,7 @@ class Generate_Form
      * 
      * @return void
      */
-    public function setHoneypot($active = 'true')
+    public function setHoneypot(string $active = 'true')
     {
         $this->_honeypot = in_array(strtolower($active), array('no','false','none','off')) ? (false) : (true);
         return $this;
@@ -588,9 +615,11 @@ class Generate_Form
     /**
      * Generate the form and return the HTML markup for presentation.
      * 
+     * @param array $data values to populate the form fields
+     * 
      * @return string HTML markup generated for the entire form
      */
-    public function generate($data = null)
+    public function generate(array $data = null)
     {
         if(!empty($data))
         {
@@ -638,7 +667,7 @@ class Generate_Form
      * 
      * @return string $_fieldsetHTML
      */
-    private function _layoutFieldset($fieldset)
+    private function _layoutFieldset(Fieldset $fieldset)
     {
         $_fieldsetID = !empty($this->_formID) ? $this->_formID .'-fs'. $fieldset->get('_fieldsetID') : 'fs'. $fieldset->get('_fieldsetID');
         $_fieldsetClass = !empty($fieldset->get('_fieldsetClass')) ? ' class="'. $fieldset->get('_fieldsetClass') .'"' : '';
