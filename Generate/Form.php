@@ -360,7 +360,8 @@ class Generate_Form
     public function addField(array $fieldInfo){
         $_fs = $fieldInfo['fieldset'] ?? count($this->fieldset);
         $_fieldset = $this->fieldset[$_fs];
-        $fieldInfo['id'] = $fieldInfo['id'] ?? 'field-'.$_fs.'-'.(count($_fieldset->field)+1);
+        $_fieldNum = !empty($_fieldset->field) && is_array($_fieldset->field) ? count($_fieldset->field)+1 : 1
+        $fieldInfo['id'] = $fieldInfo['id'] ?? 'field-'.$_fs.'-'.$_fieldNum;
         $this->fieldset[$_fs]->addField($fieldInfo);
         //If this field has a name associated, add it to the _fieldlist array.
         if(!empty($fieldInfo['name'])){
