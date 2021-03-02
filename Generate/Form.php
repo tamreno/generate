@@ -61,36 +61,36 @@ class Generate_Form
      * @return self
      */
     public function __construct(array $params = null){
-        if(!empty($params)){
-            extract($params);
-        }
-        
-        if(isset($formName)){
-        	$this->setFormName($formName);
-        }
-        
-        if(isset($formID)){
-        	$this->setFormId($formID);
-        }
-        
-        if(isset($action)){
-        	$this->setAction($action);
-        }
-        
-        if(isset($method)){
-        	$this->setMethod($method);
-        }
-        
-        if(isset($enctype)){
-        	$this->setEnctype($enctype);
-        }
-        
-        if(isset($class)){
-            call_user_func_array(array($this, 'setFormClass'), (array)$class);
-        }
-        
-        if(isset($style)){
-            call_user_func_array(array($this, 'setFormStyle'), (array)$style);
+        foreach($params as $key => $val){
+            switch(strtolower($key)){
+                case 'formname':
+                    $this->setFormName($val);
+                    break;
+                
+                case 'formid':
+                    $this->setFormId($val);
+                    break;
+                
+                case 'action':
+                    $this->setAction($val);
+                    break;
+                
+                case 'method':
+                    $this->setMethod($val);
+                    break;
+                
+                case 'enctype':
+                    $this->setEnctype($val);
+                    break;
+                
+                case 'class':
+                    call_user_func_array(array($this, 'setFormClass'), (array)$val);
+                    break;
+                
+                case 'style':
+                    call_user_func_array(array($this, 'setFormStyle'), (array)$val);
+                    break;
+            }
         }
         
         $this->newFieldset($legend ?? null);
