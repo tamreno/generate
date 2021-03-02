@@ -934,6 +934,8 @@ class Generate_Form
             '. $_value;
                 break;
         }
+        $_field .= isset($field->get('_limitChars')) ? '
+        <div id="'. $field->get('_fieldID') .'-remaining">Characters Remaining: <span id="'. $field->get('_fieldID') .'-chars">'. $field->get('_maxlength') .'</span></div>' : '';
         $_layout = '';
         $_wrapId = !empty($field->get('_fieldID')) ? ' id="'.$field->get('_fieldID').'Wrap" ' : '';
         $_wrapClass = !empty($field->get('_wrapClass')) ? ' class="fieldwrap '. $field->get('_wrapClass') .'"': ' class="fieldwrap"';
