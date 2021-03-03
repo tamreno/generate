@@ -712,7 +712,7 @@ class Generate_Form
      * 
      * @return string $_layout The HTML markup of the field, label and wrapper
      */
-    private function _layoutFormField($field)
+    private function _layoutFormField(Field $field)
     {
         $_value = $field->get('_value') ?? '';
         $_options = $_label = $_field = '';
@@ -1091,7 +1091,7 @@ class Generate_Form
      * 
      * @return string "Selected" or empty.
      */
-    private function _checkSelected($expectedValue, $assignedValue = null, $selectedValue = null)
+    private function _checkSelected(string $expectedValue, string $assignedValue = null, string $selectedValue = null)
     {
         return ((!empty($assignedValue) && $assignedValue == $expectedValue) || ((!empty($selectedValue) && $selectedValue == $expectedValue) && empty($assignedValue)))?' checked': '';
     }
@@ -1103,7 +1103,7 @@ class Generate_Form
      * 
      * @return string HTML markup defining the attributes of this label element.
      */
-    private function _buildLabelAttributes($field)
+    private function _buildLabelAttributes(Field $field)
     {
         $_attributes = $this->_buildLabelFor($field);
         $_attributes .= $this->_buildLabelClass($field);
@@ -1118,7 +1118,7 @@ class Generate_Form
      * 
      * @return string the HTML markup defining the "for" attribute of the label.
      */
-    private function _buildLabelFor($field)
+    private function _buildLabelFor(Field $field)
     {
         return !empty($field->get('_fieldID')) ? ' for="'. $field->get('_fieldID').'"' : ' for="'. $field->get('_name').'"';
     }
@@ -1130,7 +1130,7 @@ class Generate_Form
      * 
      * @return string the HTML markup defining the "class" attribute of the label.
      */
-    private function _buildLabelClass($field)
+    private function _buildLabelClass(Field $field)
     {
         return !empty($field->get('_labelClass')) ? ' class="'.$field->get('_inputType') . ' ' . $field->get('_labelClass').'"' : ' class="'.$field->get('_inputType').'"';
     }
@@ -1142,7 +1142,7 @@ class Generate_Form
      * 
      * @return string the HTML markup defining the "class" attribute of the label.
      */
-    private function _buildLabelStyle($field)
+    private function _buildLabelStyle(Field $field)
     {
         return !empty($field->get('_labelStyle')) ? ' style="'.$field->get('_labelStyle').'"' : '';
     }
@@ -1156,7 +1156,7 @@ class Generate_Form
      * @return string $_html The HTML markup for the "optgroup" of a "select"
      * element.
      */
-    private function _buildSelectOptionGroups($optionGroups, $selected = null)
+    private function _buildSelectOptionGroups(array $optionGroups, string $selected = null)
     {
         $_html = '';
         foreach($optionGroups as $og)
@@ -1181,7 +1181,7 @@ class Generate_Form
      * @return string $_optionList The HTML markup for the list of options for 
      * the "select" element.
      */
-    private function _buildSelectOptions($options, $selected = null)
+    private function _buildSelectOptions(array $options, string $selected = null)
     {
         //Determine whether the array is indexed or associative and build options
         if($this->is_indexed_array($options) && $this->is_sequential_array($options, $base = 0))
@@ -1204,7 +1204,7 @@ class Generate_Form
      * 
      * @return string HTML markup for this "select" element option.
      */
-    private function _buildOptionsFromPairs($options, $selected = null)
+    private function _buildOptionsFromPairs($options, string $selected = null)
     {
         $_optionList = '';
         foreach($options as $value => $displayText)
@@ -1222,7 +1222,7 @@ class Generate_Form
      * @param string $selected
      * @return string
      */
-    private function _buildOptions(array $options, $selected = null)
+    private function _buildOptions(array $options, string $selected = null)
     {
         $_optionList = '';
         foreach($options as $option)
@@ -1243,7 +1243,7 @@ class Generate_Form
      * 
      * @return string The html markup for the option
      */
-    private function _checkIfSelectedOption($value, $displayText, $selected)
+    private function _checkIfSelectedOption($value, string $displayText, $selected = null)
     {
        $_selected = !empty($selected) && $selected == $value ? " selected" : '';
         return '
@@ -1257,7 +1257,7 @@ class Generate_Form
      * 
      * @return string $_html The html markup for the radio button options.
      */
-    private function _buildRadioOptionList($field)
+    private function _buildRadioOptionList(Field $field)
     {
         $_html = '
             <span class="formgroup">';
@@ -1290,7 +1290,7 @@ class Generate_Form
      * 
      * @return string The HTML markup for this radio input element and its label.
      */
-    private function _buildRadioOption($field, $optionText, $optionValue)
+    private function _buildRadioOption(Field $field, string $optionText, string $optionValue)
     {
         return '
               <input type="radio" id="'. $field->get('_name') . '-' . $optionValue .'"'. $this->_buildCommonAttributes($field, array('_fieldID')) . ' value="' . $optionValue . '"' . $this->_checkSelected($optionValue, $field->get('_value'), $field->get('_selected')) .'>
@@ -1318,7 +1318,7 @@ class Generate_Form
      * @param array $arr
      * @return boolean
      */
-    private function is_indexed_array(&$arr) {
+    private function is_indexed_array(array &$arr) {
         for (reset($arr); is_int(key($arr)); next($arr));
         return is_null(key($arr));
     }
@@ -1330,7 +1330,7 @@ class Generate_Form
      * @param int $base
      * @return boolean
      */
-    private function is_sequential_array(&$arr, $base = 0) {
+    private function is_sequential_array(array &$arr, int $base = 0) {
         for (reset($arr), $base = (int) $base; key($arr) === $base++; next($arr));
         return is_null(key($arr));
     }
@@ -1383,7 +1383,7 @@ class Fieldset
      * 
      * @return void
      */
-    public function setLegend(string $legend)
+    public function setLegend(string $legend = null)
     {
         $this->_legend = $legend;
     }
@@ -1627,7 +1627,7 @@ class Field
      * 
      * @return void
      */
-    public function setLabel(string $label)
+    public function setLabel(string $label = null)
     {
         $this->_label = $label;
     }
@@ -1799,7 +1799,7 @@ class Field
      * 
      * @return void
      */
-    public function setValue(string $val)
+    public function setValue(string $val = null)
     {
         $this->_value = $val;
     }
@@ -1811,7 +1811,7 @@ class Field
      * 
      * @return void
      */
-    public function setError(string $error)
+    public function setError(string $error = null)
     {
         $this->_error = $error;
     }
@@ -1823,7 +1823,7 @@ class Field
      * 
      * @return void
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title = null)
     {
         $this->_title = $title;
     }
@@ -1836,7 +1836,7 @@ class Field
      * 
      * @return void
      */
-    public function setWrapType(string $type)
+    public function setWrapType(string $type = 'div')
     {
         $this->_wrapType = $type;
     }
