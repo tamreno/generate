@@ -653,7 +653,7 @@ class Form
      * 
      * @return string $_fieldsetHTML
      */
-    private function _layoutFieldset(tamreno\generate\form\Fieldset $fieldset){
+    private function _layoutFieldset(form\Fieldset $fieldset){
         $_fieldsetID = !empty($this->_formID) ? $this->_formID .'-fs'. $fieldset->get('_fieldsetID') : 'fs'. $fieldset->get('_fieldsetID');
         $_fieldsetClass = !empty($fieldset->get('_fieldsetClass')) ? ' class="'. $fieldset->get('_fieldsetClass') .'"' : '';
         $_fieldsetStyle = !empty($fieldset->get('_fieldsetStyle')) ? ' style="'. $fieldset->get('_fieldsetStyle') .'"' : '';
