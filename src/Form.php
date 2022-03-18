@@ -247,7 +247,7 @@ class Form
             $_params['name'] = $name;
             $_params['id'] = $name;
         }
-        $this->Submit = new \form\Field($_params);
+        $this->Submit = new \tamreno\generate\form\Field($_params);
         return $this;
     }
     
