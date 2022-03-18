@@ -61,6 +61,19 @@ class Form
      * @return self
      */
     public function __construct(array $params = null){
+        if(!empty($params)){
+            $this->_setInitialAttributes($params);
+        }
+        $this->newFieldset();
+        return $this; // for chaining
+    }
+    
+    /**
+     * Sets the initial attributes for the Form element if supplied.
+     * 
+     * @param array $params
+     */
+    private function _setInitialAttributes($params){
         foreach($params as $key => $val){
             switch(strtolower($key)){
                 case 'formname':
@@ -92,8 +105,6 @@ class Form
                     break;
             }
         }
-        $this->newFieldset();
-        return $this; // for chaining
     }
     
     /**
