@@ -64,7 +64,7 @@ class Form
         if(!empty($params)){
             $this->_setInitialAttributes($params);
         }
-        $this->newFieldset();
+        $this->newFieldset($params['legend'] ?? null);
         return $this; // for chaining
     }
     
@@ -164,7 +164,7 @@ class Form
     public function addFormStyle(...$styles){
         $x = 0;
         foreach($styles as $s){
-            $this->_formStyle .= $x > 0 ? ';' : '';
+            $this->_formStyle .= $x > 0 || !empty($this->_formStyle) ? ';' : '';
             $this->_formStyle .= $s;
             ++$x;
         }
@@ -201,7 +201,7 @@ class Form
     public function addFormClass(...$classes){
         $x = 0;
         foreach($classes as $c){
-            $this->_formClass .= $x > 0 ? ' ' : '';
+            $this->_formClass .= $x > 0 || !empty($this->_formClass) ? ' ' : '';
             $this->_formClass .= $c;
             ++$x;
         }
@@ -247,7 +247,7 @@ class Form
             $_params['name'] = $name;
             $_params['id'] = $name;
         }
-        $this->Submit = new \tamreno\Generate\form\Field($_params);
+        $this->Submit = new \form\Field($_params);
         return $this;
     }
     
