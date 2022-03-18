@@ -678,7 +678,7 @@ class Form
      * 
      * @return string $_layout The HTML markup of the field, label and wrapper
      */
-    private function _layoutFormField($field){
+    private function _layoutFormField(form\Field $field){
         $_value = $field->get('_value') ?? '';
         $_options = $_label = $_field = '';
         $_labelAfter = $_noWrap = false;
@@ -931,7 +931,7 @@ class Form
      * @return string $_attributes The string of HTML markup defining all of the
      * field's attributes within the element (i.e. input, textarea, select, etc.).
      */
-    private function _buildCommonAttributes($field, array $ignore = null){
+    private function _buildCommonAttributes(form\Field $field, array $ignore = null){
         $_attributes = '';
         foreach($this->_getAttributeList() as $_attr){
             $_attributes .= (!empty($ignore) && in_array($_attr, $ignore)) || (empty($field->get($_attr))) ? '' : $this->_buildAttribute($_attr, $field);
@@ -960,7 +960,7 @@ class Form
      * 
      * @return string HTML markup defining the attribute of this field element.
      */
-    private function _buildAttribute(string $attribute, $field){
+    private function _buildAttribute(string $attribute, form\Field $field){
         switch($attribute){
             case '_fieldID':
                 return !empty($field->get('_fieldID')) ? ' id="'.$field->get('_fieldID') .'"' : ' id="'. $field->get('_name').'"';
@@ -1053,7 +1053,7 @@ class Form
      * 
      * @return string HTML markup defining the attributes of this label element.
      */
-    private function _buildLabelAttributes($field){
+    private function _buildLabelAttributes(form\Field $field){
         $_attributes = $this->_buildLabelFor($field);
         $_attributes .= $this->_buildLabelClass($field);
         $_attributes .= $this->_buildLabelStyle($field);
@@ -1067,7 +1067,7 @@ class Form
      * 
      * @return string the HTML markup defining the "for" attribute of the label.
      */
-    private function _buildLabelFor($field){
+    private function _buildLabelFor(form\Field $field){
         return !empty($field->get('_fieldID')) ? ' for="'. $field->get('_fieldID').'"' : ' for="'. $field->get('_name').'"';
     }
     
@@ -1078,7 +1078,7 @@ class Form
      * 
      * @return string the HTML markup defining the "class" attribute of the label.
      */
-    private function _buildLabelClass($field){
+    private function _buildLabelClass(form\Field $field){
         return !empty($field->get('_labelClass')) ? ' class="'.$field->get('_inputType') . ' ' . $field->get('_labelClass').'"' : ' class="'.$field->get('_inputType').'"';
     }
     
@@ -1089,7 +1089,7 @@ class Form
      * 
      * @return string the HTML markup defining the "class" attribute of the label.
      */
-    private function _buildLabelStyle($field){
+    private function _buildLabelStyle(form\Field $field){
         return !empty($field->get('_labelStyle')) ? ' style="'.$field->get('_labelStyle').'"' : '';
     }
     
@@ -1192,7 +1192,7 @@ class Form
      * 
      * @return string $_html The html markup for the radio button options.
      */
-    private function _buildRadioOptionList($field){
+    private function _buildRadioOptionList(form\Field $field){
         $_html = '
             <span class="formgroup">';
         foreach($field->get('_options') as $option){
@@ -1219,7 +1219,7 @@ class Form
      * 
      * @return string The HTML markup for this radio input element and its label.
      */
-    private function _buildRadioOption($field, string $optionText, string $optionValue){
+    private function _buildRadioOption(form\Field $field, string $optionText, string $optionValue){
         return '
               <input type="radio" id="'. $field->get('_name') . '-' . $optionValue .'"'. $this->_buildCommonAttributes($field, array('_fieldID')) . ' value="' . $optionValue . '"' . $this->_checkSelected($optionValue, $field->get('_value'), $field->get('_selected')) .'>
               <label for="'. $field->get('_name') . '-' . $optionValue .'"> '. $optionText . ' </label>';
