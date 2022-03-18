@@ -631,7 +631,6 @@ class Form
         $_encType = !empty($this->_enctype) && $this->_method == 'post' ? ' enctype="'. $this->_enctype .'"' : '';
         $_HTML .= '
     <form '. $_formID . $_formClass . $_formStyle . $_action . $_encType . ' method="'. $this->_method .'">';
-        $x = 1;
         foreach($this->fieldset as $fs){
             $_HTML .= $this->_layoutFieldset($fs);
         }
@@ -654,7 +653,7 @@ class Form
      * 
      * @return string $_fieldsetHTML
      */
-    private function _layoutFieldset(Fieldset $fieldset){
+    private function _layoutFieldset(tamreno\generate\form\Fieldset $fieldset){
         $_fieldsetID = !empty($this->_formID) ? $this->_formID .'-fs'. $fieldset->get('_fieldsetID') : 'fs'. $fieldset->get('_fieldsetID');
         $_fieldsetClass = !empty($fieldset->get('_fieldsetClass')) ? ' class="'. $fieldset->get('_fieldsetClass') .'"' : '';
         $_fieldsetStyle = !empty($fieldset->get('_fieldsetStyle')) ? ' style="'. $fieldset->get('_fieldsetStyle') .'"' : '';
@@ -679,7 +678,7 @@ class Form
      * 
      * @return string $_layout The HTML markup of the field, label and wrapper
      */
-    private function _layoutFormField(Field $field){
+    private function _layoutFormField($field){
         $_value = $field->get('_value') ?? '';
         $_options = $_label = $_field = '';
         $_labelAfter = $_noWrap = false;
@@ -932,7 +931,7 @@ class Form
      * @return string $_attributes The string of HTML markup defining all of the
      * field's attributes within the element (i.e. input, textarea, select, etc.).
      */
-    private function _buildCommonAttributes(Field $field, array $ignore = null){
+    private function _buildCommonAttributes($field, array $ignore = null){
         $_attributes = '';
         foreach($this->_getAttributeList() as $_attr){
             $_attributes .= (!empty($ignore) && in_array($_attr, $ignore)) || (empty($field->get($_attr))) ? '' : $this->_buildAttribute($_attr, $field);
@@ -961,7 +960,7 @@ class Form
      * 
      * @return string HTML markup defining the attribute of this field element.
      */
-    private function _buildAttribute(string $attribute, Field $field){
+    private function _buildAttribute(string $attribute, $field){
         switch($attribute){
             case '_fieldID':
                 return !empty($field->get('_fieldID')) ? ' id="'.$field->get('_fieldID') .'"' : ' id="'. $field->get('_name').'"';
@@ -1054,7 +1053,7 @@ class Form
      * 
      * @return string HTML markup defining the attributes of this label element.
      */
-    private function _buildLabelAttributes(Field $field){
+    private function _buildLabelAttributes($field){
         $_attributes = $this->_buildLabelFor($field);
         $_attributes .= $this->_buildLabelClass($field);
         $_attributes .= $this->_buildLabelStyle($field);
@@ -1068,7 +1067,7 @@ class Form
      * 
      * @return string the HTML markup defining the "for" attribute of the label.
      */
-    private function _buildLabelFor(Field $field){
+    private function _buildLabelFor($field){
         return !empty($field->get('_fieldID')) ? ' for="'. $field->get('_fieldID').'"' : ' for="'. $field->get('_name').'"';
     }
     
@@ -1079,7 +1078,7 @@ class Form
      * 
      * @return string the HTML markup defining the "class" attribute of the label.
      */
-    private function _buildLabelClass(Field $field){
+    private function _buildLabelClass($field){
         return !empty($field->get('_labelClass')) ? ' class="'.$field->get('_inputType') . ' ' . $field->get('_labelClass').'"' : ' class="'.$field->get('_inputType').'"';
     }
     
@@ -1090,7 +1089,7 @@ class Form
      * 
      * @return string the HTML markup defining the "class" attribute of the label.
      */
-    private function _buildLabelStyle(Field $field){
+    private function _buildLabelStyle($field){
         return !empty($field->get('_labelStyle')) ? ' style="'.$field->get('_labelStyle').'"' : '';
     }
     
@@ -1193,7 +1192,7 @@ class Form
      * 
      * @return string $_html The html markup for the radio button options.
      */
-    private function _buildRadioOptionList(Field $field){
+    private function _buildRadioOptionList($field){
         $_html = '
             <span class="formgroup">';
         foreach($field->get('_options') as $option){
@@ -1220,7 +1219,7 @@ class Form
      * 
      * @return string The HTML markup for this radio input element and its label.
      */
-    private function _buildRadioOption(Field $field, string $optionText, string $optionValue){
+    private function _buildRadioOption($field, string $optionText, string $optionValue){
         return '
               <input type="radio" id="'. $field->get('_name') . '-' . $optionValue .'"'. $this->_buildCommonAttributes($field, array('_fieldID')) . ' value="' . $optionValue . '"' . $this->_checkSelected($optionValue, $field->get('_value'), $field->get('_selected')) .'>
               <label for="'. $field->get('_name') . '-' . $optionValue .'"> '. $optionText . ' </label>';
