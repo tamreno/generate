@@ -154,23 +154,27 @@ class Table
         if(!empty($data)){
             $_newRow = array();
             foreach($data as $row){
-//                if(!empty($this->_ignoreDataColumns)){
-                    $x = 0;
-                    foreach($row as $key => $val){
-                        if(!empty($val[0]) && is_array($val[0])){
-                            if(empty($this->header)){
-                                $this->setHeader(array_keys($val[0]));
-                            }
-                            $val = array_values($val);
+                $x = 0;
+                foreach($row as $key => $val){
+                    //check if associative array or not
+                    if(!is_int($key)){
+                        if(empty($this->header)){
+                            $this->setHeader(array_keys($row));
                         }
+                        //check if should be ignored or not
+                        if(empty($this->_ignoreDataColumns[$key])){
+                            $_newRow[$x] = $val;
+                            ++$x;
+                        }
+                    }else{
+                        //check if should be ignored or not
                         if(empty($this->_ignoreDataColumns[$key])){
                             $_newRow[$x] = $val;
                             ++$x;
                         }
                     }
-//                } else {
-//                    $_newRow = $row;
-//                }
+                }
+
                 $this->_rows[] = new \tamreno\generate\table\Row($_newRow);
                 if(empty($this->column)){
                     $x = 0;
