@@ -170,7 +170,7 @@ class Table
                     }
 //                } else {
 //                    $_newRow = $row;
-                }
+//                }
                 $this->_rows[] = new \tamreno\generate\table\Row($_newRow);
                 if(empty($this->column)){
                     $x = 0;
