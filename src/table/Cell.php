@@ -1,6 +1,6 @@
 <?php
 /**
- * @package tamreno/generate/table
+ * @package tamreno\generate\table
  * @author: Tam Bieszczad
  * @license: Apache License 2.0
  */

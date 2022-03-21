@@ -1,6 +1,6 @@
 <?php
 /**
- * @package tamreno/generate/table
+ * @package tamreno\generate\table
  * @author: Tam Bieszczad
  * @license: Apache License 2.0
  */
@@ -24,7 +24,7 @@ class Header
      * 
      * @param string $headerText
      */
-    public function __construct($headerText){
+    public function __construct(string $headerText){
         $this->_headerName = $headerText;
     }
     
@@ -60,7 +60,7 @@ class Header
      * @param string $value
      * @return string
      */
-    public function get($value){
+    public function get(string $value){
         if(isset($this->{$value})){
             return $this->{$value};
         }

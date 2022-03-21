@@ -41,9 +41,13 @@ class Table
     /**
      * 
      */
-    public function setHeader(){
-        //Get all parameters passed to setHeader
-        $_headers = func_get_args();
+    public function setHeader(...$headers){
+        if(is_array($headers)){
+            $_headers = $headers;
+        }else{
+            //Get all parameters passed to setHeader
+            $_headers = func_get_args();
+        }
         foreach($_headers as $h){
             $this->header[] = new \tamreno\generate\table\Header($h);
             $this->column[] = new \tamreno\generate\table\Column;
