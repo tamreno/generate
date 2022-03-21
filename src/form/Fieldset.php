@@ -1,9 +1,8 @@
 <?php
 /**
- * @package tamreno/generate/form
- * @subpackage Fieldset
+ * @package tamreno\generate\form
  * @author: Tam Bieszczad
- * @license 
+ * @license: Apache License 2.0 
  */
 namespace tamreno\generate\form;
 

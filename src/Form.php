@@ -1,9 +1,8 @@
 <?php
 /**
- * @package tamreno/generate
- * @subpackage Form
+ * @package tamreno\generate
  * @author: Tam Bieszczad
- * @license 
+ * @license: Apache License 2.0 
  */
 namespace tamreno\generate;
 use \tamreno\generate\form\buildJquery;

@@ -1,16 +1,15 @@
 <?php
 /**
- * @package tamreno/generate
- * @subpackage Table
+ * @package tamreno\generate
  * @author: Tam Bieszczad
- * @license 
+ * @license: Apache License 2.0
  */
 namespace tamreno\generate;
 
 /**
  * Generate the HTML markup for a table
  */
-class Generate_Table
+class Table
 {
 
     /** @var string $_tableID The id attribute of the table element. */
