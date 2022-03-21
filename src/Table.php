@@ -162,7 +162,7 @@ class Table
         $_newRow = array();
         //Remove any ignored data
         if(!empty($this->_ignoreDataColumns)){
-            foreach($this->_ignoreDataColumns as $i){
+            foreach($this->_ignoreDataColumns as $i => $mark){
                 unset($row[$i]);
             }
         }
