@@ -154,7 +154,7 @@ class Table
         if(!empty($data)){
             $_newRow = array();
             foreach($data as $row){
-                if(!empty($this->_ignoreDataColumns)){
+//                if(!empty($this->_ignoreDataColumns)){
                     $x = 0;
                     foreach($row as $key => $val){
                         if(is_array($val[0])){
@@ -163,12 +163,13 @@ class Table
                             }
                             $val = array_values($val);
                         }
-                        if(empty($this->_ignoreDataColumns[$key]))
-                        $_newRow[$x] = $val;
-                        ++$x;
+                        if(empty($this->_ignoreDataColumns[$key])){
+                            $_newRow[$x] = $val;
+                            ++$x;
+                        }
                     }
-                } else {
-                    $_newRow = $row;
+//                } else {
+//                    $_newRow = $row;
                 }
                 $this->_rows[] = new \tamreno\generate\table\Row($_newRow);
                 if(empty($this->column)){
