@@ -627,9 +627,9 @@ class Form
             }
         }
         $_formID = !empty($this->_formID) ? ' id="'. $this->_formID .'"' : 
-            !empty($this->_formName) ? ' id="'. $this->_formName .'"' : '';
+            (!empty($this->_formName) ? ' id="'. $this->_formName .'"' : '');
         $_formName = !empty($this->_formName) ? ' name="'. $this->_formName .'"' : 
-            !empty($this->_formID) ? ' name="'. $this->_formID .'"' : '';
+            (!empty($this->_formID) ? ' name="'. $this->_formID .'"' : '');
         $_formClass = !empty($this->_formClass) ? ' class="'. $this->_formClass .'"' : '';
         $_formStyle = !empty($this->_formStyle) ? ' style="'. $this->_formStyle .'"' : '';
         $_action = !empty($this->_action) ? ' action="'. $this->_action .'"' : '';
