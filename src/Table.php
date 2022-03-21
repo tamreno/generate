@@ -157,7 +157,7 @@ class Table
 //                if(!empty($this->_ignoreDataColumns)){
                     $x = 0;
                     foreach($row as $key => $val){
-                        if(is_array($val[0])){
+                        if(!empty($val[0]) && is_array($val[0])){
                             if(empty($this->header)){
                                 $this->setHeader(array_keys($val[0]));
                             }
