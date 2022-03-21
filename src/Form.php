@@ -17,10 +17,10 @@ use \tamreno\generate\form\buildJquery;
 class Form
 {
     /** @var string $_formName The name of the form element. */
-    private $_formName;
+    private $_formName = 'MyForm';
 
     /** @var string $_formID The id of the form element. */
-    private $_formID;
+    private $_formID = 'MyForm';
     
     /** @var string $_formStyle The style attribute of the form. */
     private $_formStyle;
@@ -145,11 +145,10 @@ class Form
     public function setFormStyle(...$styles){
         //Clear out the styles first, if any
         $this->_formStyle = '';
-        $x = 0;
-        foreach($styles as $s){
-            $this->_formStyle .= $x > 0 ? ';' : '';
-            $this->_formStyle .= $s;
-            ++$x;
+        if(!empty($styles)){
+            foreach($styles as $s){
+                $this->_formStyle .= $s.';';
+            }
         }
         return $this; // for chaining
     }
@@ -163,10 +162,11 @@ class Form
     */
     public function addFormStyle(...$styles){
         $x = 0;
-        foreach($styles as $s){
-            $this->_formStyle .= $x > 0 || !empty($this->_formStyle) ? ';' : '';
-            $this->_formStyle .= $s;
-            ++$x;
+        if(!empty($styles)){
+            foreach($styles as $s){
+                $this->_formStyle .= $s.';';
+                ++$x;
+            }
         }
         return $this;
     }
@@ -535,6 +535,9 @@ class Form
                 case 'setwrapstyle':
                     $this->fieldset[$_fs]->field[$_field]->setWrapStyle($details);
                     break;
+                case 'addwrapstyle':
+                    $this->fieldset[$_fs]->field[$_field]->addWrapStyle($details);
+                    break;
                 case 'setid':
                     $this->fieldset[$_fs]->field[$_field]->setId($details);
                     break;
@@ -623,14 +626,17 @@ class Form
                 $_HTML .= $script;
             }
         }
-        $_formID = !empty($this->_formID) ? ' id="'. $this->_formID .'"' : '';
+        $_formID = !empty($this->_formID) ? ' id="'. $this->_formID .'"' : 
+            !empty($this->_formName) ? ' id="'. $this->_formName .'"' : '';
+        $_formName = !empty($this->_formName) ? ' name="'. $this->_formName .'"' : 
+            !empty($this->_formID) ? ' name="'. $this->_formID .'"' : '';
         $_formClass = !empty($this->_formClass) ? ' class="'. $this->_formClass .'"' : '';
         $_formStyle = !empty($this->_formStyle) ? ' style="'. $this->_formStyle .'"' : '';
         $_action = !empty($this->_action) ? ' action="'. $this->_action .'"' : '';
         //enctype can only be used if method is 'post'
         $_encType = !empty($this->_enctype) && $this->_method == 'post' ? ' enctype="'. $this->_enctype .'"' : '';
         $_HTML .= '
-    <form '. $_formID . $_formClass . $_formStyle . $_action . $_encType . ' method="'. $this->_method .'">';
+    <form'. $_formID . $_formName . $_formClass . $_formStyle . $_action . $_encType . ' method="'. $this->_method .'">';
         foreach($this->fieldset as $fs){
             $_HTML .= $this->_layoutFieldset($fs);
         }

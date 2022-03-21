@@ -396,6 +396,19 @@ class Field
     }
 
     /**
+     * Add one or more styles to the wrapper around the input field and label.
+     * 
+     * @param mixed $wrapStyle
+     */
+    public function addWrapStyle(...$wrapStyle){
+        if(!empty($wrapStyle)){
+            foreach($wrapStyle as $s){
+                $this->_wrapStyle .= $s . ';';
+            }
+        }
+    }
+
+    /**
      * Set the id for the input field element.
      * 
      * @param string $id
