@@ -172,4 +172,16 @@ class Table
             }
         }
     }
+    
+    /**
+     * Return the table object properties to show in browser. This is for 
+     * development and testing purposes.
+     * 
+     * @return string Display of the entire table object
+     * 
+     * @return void
+     */
+    public function showObject(){
+        return '<pre>'.print_r($this,true).'</pre>';
+    }
 }

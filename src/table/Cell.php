@@ -1,9 +1,8 @@
 <?php
 /**
  * @package tamreno/generate/table
- * @subpackage Cell
  * @author: Tam Bieszczad
- * @license 
+ * @license: Apache License 2.0
  */
 namespace tamreno\generate\table;
 
