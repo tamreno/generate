@@ -100,7 +100,7 @@ class Table
     
     public function generate($data = null){
         if(!empty($data)){
-            $this->processData($data);
+            $this->_processData($data);
         }
         
         $_tableID = !empty($this->_tableID) ? ' id="'. $this->_tableID .'"' : '';
@@ -150,39 +150,41 @@ class Table
         return $_HTML;
     }
     
-    private function processData($data = null){
+    private function _processData($data = null){
         if(!empty($data)){
-            $_newRow = array();
             foreach($data as $row){
-                $x = 0;
-                foreach($row as $key => $val){
-                    //check if associative array or not
-                    if(!is_int($key)){
-                        if(empty($this->header)){
-                            $this->setHeader(array_keys($row));
-                        }
-                        //check if should be ignored or not
-                        if(empty($this->_ignoreDataColumns[$key])){
-                            $_newRow[$x] = $val;
-                            ++$x;
-                        }
-                    }else{
-                        //check if should be ignored or not
-                        if(empty($this->_ignoreDataColumns[$key])){
-                            $_newRow[$x] = $val;
-                            ++$x;
-                        }
-                    }
+                $this->_processDataRow($row);
+            }
+        }
+    }
+    
+    private function _processDataRow($row){
+        $_newRow = array();
+        //Remove any ignored data
+        if(!empty($this->_ignoreDataColumns)){
+            foreach($this->_ignoreDataColumns as $i){
+                unset($row[$i]);
+            }
+        }
+        $x = 0;
+        foreach($row as $key => $val){
+            //check if associative array or not
+            if(!is_int($key)){
+                //If header is empty, grab the keys as headers
+                if(empty($this->header)){
+                    $this->setHeader(array_keys($row));
                 }
+            }
+            $_newRow[$x] = $val;
+            ++$x;
+        }
 
-                $this->_rows[] = new \tamreno\generate\table\Row($_newRow);
-                if(empty($this->column)){
-                    $x = 0;
-                    while($x < count($row)){
-                        $this->column[$x] = new \tamreno\generate\table\Column;
-                        ++$x;
-                    }
-                }
+        $this->_rows[] = new \tamreno\generate\table\Row($_newRow);
+        if(empty($this->column)){
+            $x = 0;
+            while($x < count($row)){
+                $this->column[$x] = new \tamreno\generate\table\Column;
+                ++$x;
             }
         }
     }
