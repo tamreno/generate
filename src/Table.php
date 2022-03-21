@@ -158,10 +158,10 @@ class Table
                     $x = 0;
                     foreach($row as $key => $val){
                         if(is_array($val[0])){
-                            $val = array_values($val);
                             if(empty($this->header)){
                                 $this->setHeader(array_keys($val[0]));
                             }
+                            $val = array_values($val);
                         }
                         if(empty($this->_ignoreDataColumns[$key]))
                         $_newRow[$x] = $val;
