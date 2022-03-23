@@ -25,6 +25,10 @@ class DataTables
                 "order":[]';
     }
     
+    /**
+     * Sets which columns will not be sortable. Zero indexed.
+     * @param mixed $options
+     */
     public function setNoSort($options){
         $this->_dtScript['noSort'] = '
                 //Disable sorting on these columns (begin with 0)
@@ -45,6 +49,10 @@ class DataTables
                 ]';
     }
     
+    /**
+     * Sets the option list of how many rows to show per page.
+     * @param array $options
+     */
     public function setRowsPerPage($options){
         $this->_dtScript['rowsPerPage'] = '
         //Determine the options on the pagination selector for number of rows to display';
@@ -56,19 +64,18 @@ class DataTables
                 "lengthMenu": [['. $_nums .'-1], ['. $_nums .'"All"]]';
     }
     
+    /**
+     * Removes all of the "flip" controls from the datatable.
+     */
     public function setNoControls(){
         $this->_dtScript['controls'] = '
                 //Exclude the search box, length, information and pagination ("flip") from the sDOM
                 "sDom": \'<"top">rt<"bottom"><"clear">\'';
     }
     
-    //Don't need this anymore... Use setControls() below!!!
-    public function setNoSearch(){
-        $this->_dtScript['controls'] = '
-                //Exclude the search box from the sDOM
-                "sDom": \'<"top">lrt<"bottom">ip<"clear">\'';
-    }
-    
+    /**
+     * Code to refresh the table on an ajax call.
+     */
     public function refreshAjax(){
         $this->_dtScript['refreshAjax'] = '
                 //refreshes table on ajax calls
@@ -78,6 +85,12 @@ class DataTables
                 }';
     }
     
+    /**
+     * Sets which controls to include with the datatable. This is only necessary
+     * if you don't want all (default), or none (see setNoControls() method).
+     * 
+     * @param string $flip
+     */
     public function setControls($flip){
         //Modify to include the choice of search box, length, information and 
         //pagination ("flip") on the sDOM
@@ -179,6 +192,13 @@ class DataTables
         return $_Scripts;
     }
     
+    /**
+     * This is a stripped down script only giving the DataTable jQuery for use
+     * INSIDE another jQuery script. Like for AJAX table refreshes. 
+     * 
+     * @param string $class
+     * @return string
+     */
     public function getTableForAjaxByClass($class = 'dataTable'){
         $num = count($this->_dtScript);
         $scriptOptions = '';
@@ -206,9 +226,6 @@ class DataTables
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     ';
-//    <script src="' . SITE_DOMAIN . '/public/js/DataTables/media/js/jquery.dataTables.js"></script>
-//    <link rel="stylesheet" href="' . SITE_DOMAIN . '/public/js/DataTables/media/css/jquery.dataTables.css" type="text/css" media="screen" />
-//    ';
         return $_Scripts;
     }
 }
