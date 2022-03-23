@@ -89,6 +89,11 @@ class Table
         }
     }
     
+    
+    public function datatables(){
+        $this->datatables = new \tamreno\generate\table\DataTables();
+    }
+    
     /**
      * To manually set a row of data in the event the data needs to be manipulated
      * between what is retrieved from the db and what is presented in the table.
