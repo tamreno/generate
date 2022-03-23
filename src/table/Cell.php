@@ -15,7 +15,7 @@ class Cell
     private $_text;
 
     /** @var string $_data The data attribute(s) of the table cell.*/
-    private $_data;
+    private $_dataAttribute;
     
     /**
      * Constructor for the table cell.
@@ -25,7 +25,7 @@ class Cell
     public function __construct($cellData){
         if(is_array($cellData)){
             $this->_text = $cellData['value'];
-            $this->_data = preg_match('/^data-([a-zA-Z0-9_-])/', $cellData['data']) ? $cellData['data'] : 'data-'.$cellData['data'];
+            $this->$_dataAttribute = preg_match('/^data-([a-zA-Z0-9_-])/', $cellData['data']) ? $cellData['data'] : 'data-'.$cellData['data'];
         } else {
             $this->_text = $cellData;
         }
