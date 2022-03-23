@@ -11,7 +11,6 @@ namespace tamreno\generate;
  */
 class Table
 {
-
     /** @var string $_tableID The id attribute of the table element. */
     private $_tableID;
     
@@ -31,15 +30,16 @@ class Table
     public $column;
 
     /**
+     * Instantiates the Table object.
      * 
-     * @param type $tableID
+     * @param string $tableID
      */
     public function __construct($tableID = null){
         $this->_tableID = $tableID ?? null;
     }
     
     /**
-     * 
+     * Set the text for the header row cells.
      */
     public function setHeader(){
         //Get all parameters passed to setHeader
@@ -54,7 +54,7 @@ class Table
     }
 
     /**
-     * 
+     * Set the style for the table.
      */
     public function setStyle(){
         $_styles = func_get_args();
@@ -67,7 +67,7 @@ class Table
     }
     
     /**
-     * 
+     * Set the class for the table.
      */
     public function setClass(){
         $_classes = func_get_args();
@@ -80,7 +80,7 @@ class Table
     }
     
     /**
-     * 
+     * Set the columns that should be ignored when importing data into the Table.
      */
     public function ignoreDataColumns(){
         $_ignoreCols = func_get_args();
@@ -89,7 +89,9 @@ class Table
         }
     }
     
-    
+    /**
+     * Incorporates the DataTables javascript for use with the Table.
+     */
     public function datatables(){
         $this->datatables = new \tamreno\generate\table\DataTables();
     }
@@ -103,6 +105,12 @@ class Table
         $this->_rows[] = new \tamreno\generate\table\Row($_rowData);
     }
     
+    /**
+     * Generate the HTML for the Table.
+     * 
+     * @param array|null $data
+     * @return string
+     */
     public function generate($data = null){
         if(!empty($data)){
             $this->_processData($data);
@@ -155,6 +163,11 @@ class Table
         return $_HTML;
     }
     
+    /**
+     * Imports the data into the table.
+     * 
+     * @param array|null $data
+     */
     private function _processData($data = null){
         if(!empty($data)){
             foreach($data as $row){
@@ -163,6 +176,11 @@ class Table
         }
     }
     
+    /**
+     * Imports a row of data from the processData() method.
+     * 
+     * @param array $row
+     */
     private function _processDataRow($row){
         $_newRow = array();
         //Remove any ignored data
