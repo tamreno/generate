@@ -55,7 +55,7 @@ class DataTables
      */
     public function setRowsPerPage($options){
         $this->_dtScript['rowsPerPage'] = '
-        //Determine the options on the pagination selector for number of rows to display';
+                //Determine the options on the pagination selector for number of rows to display';
         $_nums = '';
         foreach($options as $v){
             $_nums .= $v.', ';
@@ -217,7 +217,9 @@ class DataTables
     }
     
     /**
-     * These are the required files necessary to make DataTables work.
+     * These are the required files necessary to make DataTables work. This is 
+     * automatically included when you call getDataTableScript() method or 
+     * getDataTableScriptByClass() method.
      * 
      * @return string $_Scripts
      */
