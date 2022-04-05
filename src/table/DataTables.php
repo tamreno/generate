@@ -11,16 +11,28 @@ namespace tamreno\generate\table;
  */
 class DataTables
 {
-
+    /** @var string $_Scripts The javascript code to place in the head of the 
+     * web page. */
     public $_Scripts;
     
     /** @var string $_dtScript */
     private $_dtScript;
+    
+    /** @var string $_attribute The table's attribute type to key off of ('id' 
+     * or 'class') */
+    private $_attribute;
+    
+    /** @var string $_name The value of the table's id or class attribute */
+    private $_name;
 
     /**
      * Instantiates the DataTables object.
+     * @param string $attribute The attribute type ('id' or 'class')
+     * @param string $name The value of the id or class attribute
      */
-    public function __construct(){
+    public function __construct($attribute, $name){
+        $this->_attribute = $attribute;
+        $this->_name = $name;
         $this->_dtScript['order'] = '
                 "order":[]';
     }
@@ -53,7 +65,7 @@ class DataTables
      * Sets the option list of how many rows to show per page.
      * @param array $options
      */
-    public function setRowsPerPage($options){
+    public function setRowsPerPage(array $options){
         $this->_dtScript['rowsPerPage'] = '
                 //Determine the options on the pagination selector for number of rows to display';
         $_nums = '';
@@ -111,10 +123,9 @@ class DataTables
      * 
      * Returns the script for the header of the page.
      * 
-     * @param string $id
      * @return string
      */
-    public function getDataTableScript($id = 'myTable'){
+    public function getDataTableScript(){
         $_Scripts = self::requiredDataTablesFiles();
         $num = count($this->_dtScript);
         $scriptOptions = '';
@@ -127,40 +138,7 @@ class DataTables
         $_Scripts .= '
     <script>
       $(document).ready(function() {
-        $("#'.$id.'").DataTable( {
-            '.$scriptOptions.'
-        } );
-      } );
-    </script>
-    ';        
-        return $_Scripts;
-    }
-    
-    /**
-     * Instead of setting the options for a DataTable by its id (#myTable by 
-     * default) this will set the options for all DataTables on a page with the 
-     * same class (.dataTable by default). This way you won't have to iterate the
-     * same options over multiple ID values if they are going to be the same.
-     * 
-     * Returns the script for the header of the page.
-     *
-     * @param string $class
-     * @return string
-     */
-    public function getDataTableScriptByClass($class = 'dataTable'){
-        $_Scripts = self::requiredDataTablesFiles();
-        $num = count($this->_dtScript);
-        $scriptOptions = '';
-        $x = 1;
-        foreach($this->_dtScript as $key => $val){
-            $scriptOptions .= ($x > 1 && $x <= $num) ? ', ' : '';
-            $scriptOptions .= $val;
-            ++$x;
-        }
-        $_Scripts .= '
-    <script>
-      $(document).ready(function() {
-        $(".'.$class.'").DataTable( {
+        $("'.$this->_getTableKey().'").DataTable( {
             '.$scriptOptions.'
         } );
       } );
@@ -175,7 +153,7 @@ class DataTables
      * 
      * @return string $_Scripts
      */
-    public function getTableForAjax($id = 'myTable'){
+    public function getTableForAjax(){
         $num = count($this->_dtScript);
         $scriptOptions = '';
         $x = 1;
@@ -185,7 +163,7 @@ class DataTables
             ++$x;
         }
         $_Scripts = '
-            $("#'. $id .'").DataTable( {
+            $("'.$this->_getTableKey().'").DataTable( {
                 '.$scriptOptions.'
             } );
     ';        
@@ -193,27 +171,22 @@ class DataTables
     }
     
     /**
-     * This is a stripped down script only giving the DataTable jQuery for use
-     * INSIDE another jQuery script. Like for AJAX table refreshes. 
+     * Get the table identifier that DataTables will use to key off of.
      * 
-     * @param string $class
      * @return string
      */
-    public function getTableForAjaxByClass($class = 'dataTable'){
-        $num = count($this->_dtScript);
-        $scriptOptions = '';
-        $x = 1;
-        foreach($this->_dtScript as $key => $val){
-            $scriptOptions .= ($x > 1 && $x <= $num) ? ', ' : '';
-            $scriptOptions .= $val;
-            ++$x;
+    private function _getTableKey(){
+        $_key = '';
+        switch (strtolower($this->_attribute)) {
+            case 'id':
+                $_key = '#' . $this->_name;
+                break;
+
+            case 'class':
+                $_key = '.' . $this->_name;
+                break;
         }
-        $_Scripts = '
-            $(".'. $class .'").DataTable( {
-                '.$scriptOptions.'
-            } );
-    ';        
-        return $_Scripts;
+        return $_key;
     }
     
     /**

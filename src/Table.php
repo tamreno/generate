@@ -91,9 +91,14 @@ class Table
     
     /**
      * Incorporates the DataTables javascript for use with the Table.
+     * @param string $attribute The attribute type ('id' or 'class')
+     * @param string $name The value of the id or class attribute
      */
-    public function datatables(){
-        $this->datatables = new \tamreno\generate\table\DataTables();
+    public function datatables($attribute = null, $name = null){
+        $_attribute = $attribute ?? (!empty($this->_tableID) ? 'id' : 'class');
+        $_name = $name ?? ($_attribute == 'id' ? $this->_tableID : 
+            (!empty($this->_tableClass) ? $this->_tableClass : 'DataTable'));
+        $this->datatables = new \tamreno\generate\table\DataTables($_attribute, $_name);
     }
     
     /**
